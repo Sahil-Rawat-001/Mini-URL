@@ -8,9 +8,9 @@ async function handleGenerateShortUrl(req, res) {
     if (!body.url) return res.status(400).json({ error: "url is required" });
 
     // check if url is already shortened
-    const existingEntry = await URL.findOne({ redirectUrl: url });
+    const existingEntry = await URL.findOne({ redirectUrl: body.url });
     if (existingEntry) {
-      return res.json({ id: shortID });
+      return res.json({ id: existingEntry.shortID });
     }
 
     // Generate a short id and save it to database
@@ -20,8 +20,12 @@ async function handleGenerateShortUrl(req, res) {
       redirectUrl: body.url,
       visitHistory: [],
     });
+    
+    return res.render('home', {
+      id: shortID
+    })
+    // return res.json({ id: shortID });
 
-    return res.json({ id: shortID });
   } catch (error) {
     return res.status(500).json({ Error: "Internal Server Error" });
   }
