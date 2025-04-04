@@ -1,10 +1,13 @@
 const express = require('express');
 require('dotenv').config(); 
-const urlRoute = require('./routes/url');
+
 const URL  = require('./models/url');
 const {connectToMongoDb} = require('./connection');
+
 const path = require('path');
 const staticRouter = require('./routes/staticRouter');
+const urlRoute = require('./routes/url');
+const userRoute = require('./routes/user');
 
 
 const app = express();
@@ -19,10 +22,12 @@ app.set("view engine", "ejs");
 app.set('views', path.resolve("./views"));
 
 // middle wares
+app.use(express.static('public'));
 app.use(express.json()); // for parsing json data
 app.use(express.urlencoded({extended: false})); // for parsing form data
 
 app.use("/url",urlRoute);
+app.use("/user",userRoute);
 app.use('/',staticRouter);
 
 

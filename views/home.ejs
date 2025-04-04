@@ -4,25 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-
-    <style>
-        body{
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-    </style>
+    <link rel="stylesheet" href="/homeStyle.css">
 </head>
 <body>
 
     <h1>URL Shortener</h1>
 
+   <div class="newGeneratedUrl-container">
+    <p>New Mini URL: </p>
     <% if (locals.id) { %>
      
-        <p style="font-weight: 500;">URL Generated: http://localhost:8080/url/<%= id %></p>
+        <p id="url"> http://localhost:8080/url/<%= id %></p>
     <% } %>
+   </div>
 
     <div class="form-container">
         <form method="post" action="/url">
-            <label>Enter Your Original URL</label>
+            <label>Enter Your Original URL: </label>
             <input 
               type="url" 
               name="url" 

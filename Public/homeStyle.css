@@ -1,0 +1,116 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: #cacaca;
+}
+
+h1{
+    margin: 20px;
+}
+
+.newGeneratedUrl-container{
+
+    width: 50%;
+    height: 80px;
+    border: 2px solid black;
+    border-radius: 25px;
+    margin: 20px 0;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    text-align: center;
+    cursor: pointer;
+}
+
+
+.newGeneratedUrl-container p{
+    margin: 5px;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+#url{
+    color: #494949ed;    
+}
+
+.form-container{
+    
+    display: flex;
+    margin: 25px;
+    /* justify-content: space-evenly; */
+}
+
+.form-container label{
+    font-size: 20px;
+}
+
+.form-container input{
+    border: 1px solid grey;
+    border-radius: 8px;
+    padding: 5px;
+    font-size: 15px;
+    width: 300px;
+}
+
+.form-container input::placeholder{
+    color: lightgray;
+}
+
+
+
+.form-container button{
+    border: 1px solid black;
+    font-size: 15px;
+    padding: 5px;
+    border-radius: 8px;
+    background-color: #10e04e9f;
+    transition: all 0.3s ease;
+}
+
+.form-container button:hover{
+    background-color: #0fa93df4;
+    /* color: white; */
+    cursor: pointer;
+}
+
+
+.analytics-container{
+
+    margin: 20px;
+    max-height: 300px;
+    overflow-y: scroll;
+    border: 1px solid black;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    background: #f8f8f8; /* Background color to prevent text overlap */
+    z-index: 100;
+    
+}
+
+th, td {
+    border: 1px solid #1e1e1e;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background: #f1f1f1; /* Light background for header */
+}
