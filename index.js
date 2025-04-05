@@ -1,5 +1,7 @@
-const express = require('express');
 require('dotenv').config(); 
+const express = require('express');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 const URL  = require('./models/url');
 const {connectToMongoDb} = require('./connection');
@@ -26,9 +28,23 @@ app.use(express.static('public'));
 app.use(express.json()); // for parsing json data
 app.use(express.urlencoded({extended: false})); // for parsing form data
 
+app.use(session({
+
+    secret: process.env.SESSION_SECRET_KEY,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({mongoUrl: process.env.Mongo_Uri}),
+    cookie: {
+        secure: false,
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60,
+    }
+}));
+
 app.use("/url",urlRoute);
 app.use("/user",userRoute);
 app.use('/',staticRouter);
+
 
 
 app.get('/test', async (req,res) => {

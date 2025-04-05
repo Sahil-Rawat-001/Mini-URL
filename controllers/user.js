@@ -1,6 +1,7 @@
 require('dotenv').config();
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
+
 // const {v4: uuidv4} = require('uuid');
 // const {setUser} = require('../service/auth');
 
@@ -56,6 +57,9 @@ async function handleUserLogIn(req,res){
                 error: 'Invalid Username or Password',
             });
         }
+        
+        // storing logged in user id
+        req.session.userId = user._id;
 
         return res.redirect('/');
     } catch(error){
@@ -65,7 +69,19 @@ async function handleUserLogIn(req,res){
 }
 
 
+function handleUserLogOut(req, res) {
+    req.session.destroy((err) => {
+        if (err) {
+            console.log("Error destroying session:", err);
+            return res.status(500).send("Something went wrong.");
+        }
+        res.redirect('/login');
+    });
+}
+
+
 module.exports = {
     handleUserSignup,
     handleUserLogIn,
+    handleUserLogOut,
 }
