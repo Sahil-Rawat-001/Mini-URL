@@ -1,6 +1,7 @@
-require('dotenv').config();
+// require('dotenv').config();
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
+const jwt    = require('jsonwebtoken');
 
 // const {v4: uuidv4} = require('uuid');
 // const {setUser} = require('../service/auth');
@@ -21,7 +22,7 @@ async function handleUserSignup(req,res){
 
         // hashing password before saving it
         const hashedPassword = await bcrypt.hash(password, saltRounds);
-        console.log(`Hashed password ${hashedPassword}`);
+        // console.log(`Hashed password ${hashedPassword}`);
 
         // If new user store its information
         await User.create({
@@ -57,6 +58,20 @@ async function handleUserLogIn(req,res){
                 error: 'Invalid Username or Password',
             });
         }
+
+        // Generate jwt token
+        const token = jwt.sign(
+            {userId: user._id},
+            process.env.SECRET_JWT_KEY,
+            {expiresIn: '1h'},
+        )
+
+
+        // send token in cookie
+        res.cookie(`token`, token , {
+            httpOnly: true,
+            secure: false,
+        });
         
         // storing logged in user id
         req.session.userId = user._id;
@@ -70,13 +85,9 @@ async function handleUserLogIn(req,res){
 
 
 function handleUserLogOut(req, res) {
-    req.session.destroy((err) => {
-        if (err) {
-            console.log("Error destroying session:", err);
-            return res.status(500).send("Something went wrong.");
-        }
+        // remove token from cookie
+        res.clearCookie('token');
         res.redirect('/login');
-    });
 }
 
 

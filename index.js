@@ -1,7 +1,7 @@
 require('dotenv').config(); 
 const express = require('express');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
+// const MongoStore = require('connect-mongo');
+const cookieParser = require('cookie-parser');
 
 const URL  = require('./models/url');
 const {connectToMongoDb} = require('./connection');
@@ -24,22 +24,11 @@ app.set("view engine", "ejs");
 app.set('views', path.resolve("./views"));
 
 // middle wares
+app.use(cookieParser());
 app.use(express.static('public'));
 app.use(express.json()); // for parsing json data
 app.use(express.urlencoded({extended: false})); // for parsing form data
 
-app.use(session({
-
-    secret: process.env.SESSION_SECRET_KEY,
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({mongoUrl: process.env.Mongo_Uri}),
-    cookie: {
-        secure: false,
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60,
-    }
-}));
 
 app.use("/url",urlRoute);
 app.use("/user",userRoute);
